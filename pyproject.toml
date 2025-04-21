@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "methodos"
+version = "0.0.1"
+description = "A configuration management platform module using gRPC and Protobuf." # Add a more detailed description
+readme = "README.md" # Assuming you have a README.md file
+requires-python = ">=3.8" # Specify your minimum supported Python version
+license = { text = "MIT" } # Choose an appropriate license, e.g., MIT, Apache-2.0
+authors = [
+    { name = "Jason Miller", email = "jason.miller@thoughtparameters.com" }, # Update with actual author info
+]
+classifiers = [ # Add classifiers for PyPI (https://pypi.org/classifiers/)
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License", # Match the license above
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["configuration management", "yaml", "pydantic", "devops", "automation"] # Add relevant keywords
+
+# Core runtime dependencies
+dependencies = [
+    "pyyaml>=6.0.2",
+    "pydantic>=2.0.0",
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "requests>=2.31.0"
+]
+
+# Optional dependencies for development (install with: pip install '.[dev]')
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",      # For running tests
+    "ruff>=0.1.0",      # Linter and formatter
+    "mypy>=1.0",        # Static type checker
+    "build>=0.10.0",    # For building the package
+    "twine>=4.0.0",     # For uploading the package to PyPI
+    "pre-commit>=3.0.0", # For running checks before commits (optional but recommended)
+    "pdbpp>=0.11.0",   # For debugging with pdb++
+]
+
+[project.urls] # Optional: Add links relevant to your project
+Homepage = "https://github.com/ThoughtParameters/methodos" # Example link
+Repository = "https://github.com/ThoughtParameters/methodos"
+# Documentation = "https://methodos.readthedocs.io"
+"Bug Tracker" = "https://github.com/ThoughtParameters/methodos/issues"
+
+[project.scripts]
+methodos-agent = "methodos.agent:main"
+methodos = "methodos.client:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["methodos*"]
+namespaces = false
+
+[tool.pytest.ini_options]
+# Configure pytest
+testpaths = [
+  "tests",
+]
+python_files = "test_*.py *_test.py" # Stanard test file naming patterns
+addopts = "-ra -q --import-mode=importlib" # Recommended options: -ra shows extra summary info, -q is quieter, importlib mode recommended with src-layout
+
+
+# Tool-specific configurations can go below, e.g., for Ruff or MyPy
+[tool.ruff]
+line-length = 88
+src = ["src", "tests"]
+
+[tool.mypy]
+files = ["src/methodos", "tests"]
